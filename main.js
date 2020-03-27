@@ -54,7 +54,7 @@ const chartStat = new Chart(ctxStat, {
     }
 })
 
-const int = setInterval(() => {
+function iteration() {
     population.nextEpoch();
     $('#epoch').text(population.epoch);
     const stats = population.computeStats();
@@ -65,12 +65,14 @@ const int = setInterval(() => {
     chartPop.data.datasets[0].data.push(stats.susceptible);
     chartPop.data.datasets[1].data.push(stats.infected);
     chartPop.data.datasets[2].data.push(stats.removed);
-    chartPop.update();
+    chartPop.update({duration: 0});
     
     chartStat.data.datasets[0].data.push(stats.Ravg);
-    chartStat.update();
+    chartStat.update({duration: 0});
 
-    if (stats.infected === 0) {
-        clearInterval(int);
+    if (stats.infected > 0) {
+        setTimeout(iteration, 0);
     }
-}, 500);
+}
+
+setTimeout(iteration, 0);
