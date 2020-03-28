@@ -18,6 +18,10 @@ class Individual {
             && this.infectedEpoch >= epoch - duration;
     }
 
+    removedToday(epoch) {
+        return this.infectedEpoch === epoch - duration;
+    }
+
     spread(epoch) {
         if (this.infectious(epoch)) {
             this.friends.forEach((friend) => {
@@ -51,13 +55,24 @@ class Population {
 
     computeDegrees() {
         const max = this.computeMaxDegree();
-        const degrees = [...Array(max+1).keys()].map(() => 0);
-        console.log(degrees)
+        const susceptible = [...Array(max+1).keys()].map(() => 0);
+        const infected = [...Array(max+1).keys()].map(() => 0);
+        const removed = [...Array(max+1).keys()].map(() => 0);
         this.individuals.forEach(individual => {
-            degrees[individual.degree()] += 1;
+            if (individual.infectious(this.epoch)) {
+                infected[individual.degree()] += 1;
+            } else if (individual.infected()) {
+                removed[individual.degree()] += 1;
+            } else {
+                susceptible[individual.degree()] += 1;
+            }
         });
-        console.log(degrees)
-        return degrees;
+        return {
+            susceptible,
+            infected,
+            removed,
+            max,
+        };
     }
 
     computeStats() {
@@ -65,20 +80,25 @@ class Population {
         let infected = 0;
         let removed = 0;
         let Reff = 0;
+        let ReffCount = 0;
 
         this.individuals.forEach(individual => {
             if (individual.infectious(this.epoch)) {
-                Reff += individual.infectCount;
                 infected += 1;
             } else if (individual.infected()) {
                 removed += 1;
             } else {
                 susceptible += 1;
             }
+
+            if (individual.removedToday(this.epoch)) {
+                Reff += individual.infectCount;
+                ReffCount += 1;
+            }
         });
 
         
-        Reff /= infected;
+        Reff /= ReffCount;
 
         return {
             susceptible,

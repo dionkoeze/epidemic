@@ -7,6 +7,7 @@
     <script src="parameters.js"></script>
     <script src="population.js"></script>
     <script src="random_matcher.js"></script>
+    <script src="statistics.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <script
 			  src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -37,6 +38,10 @@
             <input type="number" id="rate" min="0" max="1" step="0.01"><br/>
             <label for="duration">Infection duration</label>
             <input type="number" id="duration" min="0" max="10000"><br/>
+            <label for="initial">Initalliy infected</label>
+            <input type="number" id="initial" min="0" max="100000"><br/>
+            <label for="delay">Simulation delay (ms)</label>
+            <input type="number" id="delay" min="0" max="10000"><br/>
     
             <button id="start">Start</button><br/>
         </div>
@@ -44,17 +49,43 @@
             <p>Infected peak: <span id="infectedPeak"></span></p>
             <p>Removed total: <span id="removedTotal"></span></p>
             <p>Uninfected total: <span id="uninfectedTotal"></span></p>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>average</th>
+                    <th>median</th>
+                    <th>mode</th>
+                </tr>
+                <tr>
+                    <td>susceptible</td>
+                    <td id="sus-avg"></td>
+                    <td id="sus-med"></td>
+                    <td id="sus-mod"></td>
+                </tr>
+                <tr>
+                    <td>infected</td>
+                    <td id="inf-avg"></td>
+                    <td id="inf-med"></td>
+                    <td id="inf-mod"></td>
+                </tr>
+                <tr>
+                    <td>removed</td>
+                    <td id="rem-avg"></td>
+                    <td id="rem-med"></td>
+                    <td id="rem-mod"></td>
+                </tr>
+            </table>
         </div>
     </div>
     <div class=container>
-        <canvas id="degreedist" width="400" height="400"></canvas>
+        <canvas id="degreedist" width="400" height="200"></canvas>
     </div>
     <div>
         <div class="container">
-            <canvas id="population" width="400" height="400"></canvas>
+            <canvas id="population" width="400" height="200"></canvas>
         </div>
         <div class="container">
-            <canvas id="stats" width="400" height="400"></canvas>
+            <canvas id="stats" width="400" height="200"></canvas>
         </div>
     </div>
     <script src="main.js"></script>
