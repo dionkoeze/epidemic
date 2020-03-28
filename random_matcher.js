@@ -5,7 +5,7 @@ function randomInt(min, max) {
   }
 
 function randomMatcher(population) {
-    const count = connectivity * population.length;
+    const count = connectivity * population.length / 2;
 
     for (let idx = 0; idx < count; idx++) {
         let a, b;

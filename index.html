@@ -18,31 +18,36 @@
 <body>
     <h1>Epidemic on a Graph</h1>
     <h3>Epoch count: <span id="epoch"></span></h3>
-    <div class="input">
-        <label for="size">Population size</label>
-        <input type="number" id="size" min="0" max="1000000000"><br/>
-        <label for="connectivity">Connectivity</label>
-        <input type="number" id="connectivity" min="0" max="10000"><br/>
-
-        <label for="network">Network topology</label>
-        <select id="network">
-            <option value="random">Random (Erdős-Renyi)</option>
-            <!-- <option value="smallworld">Small world (</option> -->
-        </select><br/>
-
-        <button id="regen">Regenerate network</button><br/>
-
-        <label for="rate">Infection rate</label>
-        <input type="number" id="rate" min="0" max="1" step="0.01"><br/>
-        <label for="duration">Infection duration</label>
-        <input type="number" id="duration" min="0" max="10000"><br/>
-
-        <button id="start">Start</button><br/>
+    <div class="datacontainer">
+        <div class="input">
+            <label for="size">Population size</label>
+            <input type="number" id="size" min="0" max="1000000000"><br/>
+            <label for="connectivity">Connectivity</label>
+            <input type="number" id="connectivity" min="0" max="10000"><br/>
+    
+            <label for="network">Network topology</label>
+            <select id="network">
+                <option value="random">Random (Erdős-Renyi)</option>
+                <!-- <option value="smallworld">Small world (</option> -->
+            </select><br/>
+    
+            <button id="regen">Regenerate network</button><br/>
+    
+            <label for="rate">Infection rate</label>
+            <input type="number" id="rate" min="0" max="1" step="0.01"><br/>
+            <label for="duration">Infection duration</label>
+            <input type="number" id="duration" min="0" max="10000"><br/>
+    
+            <button id="start">Start</button><br/>
+        </div>
+        <div class="output">
+            <p>Infected peak: <span id="infectedPeak"></span></p>
+            <p>Removed total: <span id="removedTotal"></span></p>
+            <p>Uninfected total: <span id="uninfectedTotal"></span></p>
+        </div>
     </div>
-    <div class="output">
-        <p>Infected peak: <span id="infectedPeak"></span></p>
-        <p>Removed total: <span id="removedTotal"></span></p>
-        <p>Uninfected total: <span id="uninfectedTotal"></span></p>
+    <div class=container>
+        <canvas id="degreedist" width="400" height="400"></canvas>
     </div>
     <div>
         <div class="container">

@@ -26,11 +26,40 @@ const chartStat = new Chart(ctxStat, {
     }
 })
 
+const ctxDist = document.getElementById('degreedist').getContext('2d');
+const chartDist = new Chart(ctxDist, {
+    type: 'bar',
+    data: {
+        datasets: [{
+            label: 'friends',
+            backgroundColor: 'rgba(200,200,0,1)',
+            borderColor: 'rgba(200,200,0,1)',
+            data: [],
+        }],
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            xAxes: [{
+                display: true,
+            }]
+        }
+    }
+})
+
 let population, stats;
 
 function regenPopulation() {
     population = new Population(populationSize, randomMatcher);
     resetPopulation();
+
+    const degrees = population.computeDegrees()
+    chartDist.data.datasets[0].data = degrees;
+    chartDist.data.labels = [...Array(degrees.length).keys()];
+    chartDist.update({duration: 0});
+
+    console.log(chartDist.data.datasets[0])
 }
 
 function resetPopulation() {

@@ -5,6 +5,10 @@ class Individual {
         this.friends = [];
     }
 
+    degree() {
+        return this.friends.length;
+    }
+
     infected() {
         return this.infectedEpoch !== undefined;
     }
@@ -39,6 +43,21 @@ class Population {
         this.individuals.forEach(individual => {
             individual.spread(this.epoch);
         });
+    }
+
+    computeMaxDegree() {
+        return this.individuals.reduce((max, ind) => ind.degree() > max ? ind.degree() : max, 0);
+    }
+
+    computeDegrees() {
+        const max = this.computeMaxDegree();
+        const degrees = [...Array(max+1).keys()].map(() => 0);
+        console.log(degrees)
+        this.individuals.forEach(individual => {
+            degrees[individual.degree()] += 1;
+        });
+        console.log(degrees)
+        return degrees;
     }
 
     computeStats() {
