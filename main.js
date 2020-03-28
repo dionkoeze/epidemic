@@ -2,6 +2,8 @@ const ctxPop = document.getElementById('population').getContext('2d');
 const chartPop = new Chart(ctxPop, {
     type: 'line',
     options: {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             xAxes: [{
                 display: true,
@@ -14,6 +16,8 @@ const ctxStat = document.getElementById('stats').getContext('2d');
 const chartStat = new Chart(ctxStat, {
     type: 'line',
     options: {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             xAxes: [{
                 display: true,
@@ -62,6 +66,11 @@ function resetCharts() {
 
     chartStat.data.labels = [0];
     chartStat.data.datasets = [{
+        label: 'criticality',
+        backgroundColor: 'rgba(0,0,0,0)',
+        borderColor: 'rgba(200,0,0,1)',
+        data: [stats.Reff],
+    }, {
         label: 'Reff',
         backgroundColor: 'rgba(0,0,0,0)',
         borderColor: 'rgba(0,0,200,1)',
@@ -76,14 +85,18 @@ function resetStats() {
     $('#infectedPeak').text(0);
 }
 
+function asPercentage(number) {
+    return Math.round(number/populationSize*10000)/100;
+}
+
 function updateStats(stats) {
     let peak = parseInt($('#infectedPeak').text())
     if (stats.infected > peak) {
-        $('#infectedPeak').text(stats.infected);
+        $('#infectedPeak').text(`${stats.infected} (${asPercentage(stats.infected)}%)`);
     }
 
-    $('#removedTotal').text(stats.removed);
-    $('#uninfectedTotal').text(stats.susceptible);
+    $('#removedTotal').text(`${stats.removed} (${asPercentage(stats.removed)}%)`);
+    $('#uninfectedTotal').text(`${stats.susceptible} (${asPercentage(stats.susceptible)}%)`);
 }
 
 function iteration() {
@@ -99,7 +112,8 @@ function iteration() {
     chartPop.data.datasets[2].data.push(stats.removed);
     chartPop.update({duration: 0});
     
-    chartStat.data.datasets[0].data.push(stats.Reff);
+    chartStat.data.datasets[0].data.push(1);
+    chartStat.data.datasets[1].data.push(stats.Reff);
     chartStat.update({duration: 0});
 
     updateStats(stats);
