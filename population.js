@@ -55,10 +55,13 @@ class Population {
 
     computeDegrees() {
         const max = this.computeMaxDegree();
+        const all = [...Array(max+1).keys()].map(() => 0);
         const susceptible = [...Array(max+1).keys()].map(() => 0);
         const infected = [...Array(max+1).keys()].map(() => 0);
         const removed = [...Array(max+1).keys()].map(() => 0);
         this.individuals.forEach(individual => {
+            all[individual.degree()] += 1;
+
             if (individual.infectious(this.epoch)) {
                 infected[individual.degree()] += 1;
             } else if (individual.infected()) {
@@ -68,6 +71,7 @@ class Population {
             }
         });
         return {
+            all,
             susceptible,
             infected,
             removed,

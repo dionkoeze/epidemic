@@ -37,7 +37,7 @@ function median(hist) {
         cat++;
     }
 
-    return cat
+    return cat-1 >= 0 ? cat-1 : 0;
 }
 
 function mode(hist) {

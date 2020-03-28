@@ -86,7 +86,19 @@ const chartDist = new Chart(ctxDist, {
 let population, stats;
 
 function regenPopulation() {
-    population = new Population(populationSize, randomMatcher);
+    let matcherFunc;
+
+    if (matcher === 'random') {
+        matcherFunc = randomMatcher;
+    } else if (matcher === 'grid1d') {
+        matcherFunc = grid1DMatcher;
+    } else if (matcher === 'grid2d') {
+        matcherFunc = grid2DMatcher;
+    } else if (matcher === 'grid3d') {
+        matcherFunc = grid3DMatcher;
+    }
+
+    population = new Population(populationSize, matcherFunc);
     resetPopulation();
 }
 
@@ -160,6 +172,9 @@ function updateStats(stats, degrees) {
     $('#removedTotal').text(`${stats.removed} (${asPercentage(stats.removed)}%)`);
     $('#uninfectedTotal').text(`${stats.susceptible} (${asPercentage(stats.susceptible)}%)`);
 
+    $('#all-avg').text(rounded(average(degrees.all)));
+    $('#all-med').text(rounded(median(degrees.all)));
+    $('#all-mod').text(rounded(mode(degrees.all)));
     $('#sus-avg').text(rounded(average(degrees.susceptible)));
     $('#sus-med').text(rounded(median(degrees.susceptible)));
     $('#sus-mod').text(rounded(mode(degrees.susceptible)));
@@ -195,7 +210,7 @@ function iteration() {
     chartDist.data.datasets[0].data = degrees.susceptible;
     chartDist.data.datasets[1].data = degrees.infected;
     chartDist.data.datasets[2].data = degrees.removed;
-    chartDist.data.labels = [...Array(degrees.max).keys()];
+    chartDist.data.labels = [...Array(degrees.max+1).keys()];
     chartDist.update({duration: 0});
 
     updateStats(stats, degrees);
@@ -206,9 +221,10 @@ function iteration() {
 }
 
 $('#size').val(populationSize);
+$('#connectivity').val(connectivity);
+$('#network').val(matcher);
 $('#rate').val(infectionRate);
 $('#duration').val(duration);
-$('#connectivity').val(connectivity);
 $('#initial').val(initial);
 $('#delay').val(delay)
 
@@ -219,6 +235,7 @@ function readParams() {
     connectivity = parseInt($('#connectivity').val());
     initial = parseInt($('#initial').val());
     delay = parseInt($('#delay').val());
+    matcher = $('#network').val();
 }
 
 $('#regen').click(function() {
