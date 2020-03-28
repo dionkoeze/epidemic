@@ -36,7 +36,14 @@ const chartStat = new Chart(ctxStat, {
                     display: true,
                     labelString: 'days',
                 }
-            }]
+            }],
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'estimate',
+                },
+            }],
         }
     }
 })
@@ -251,6 +258,22 @@ $('#start').click(function() {
     resetCharts();
     setTimeout(iteration, 0);
 });
+
+$('#log').click(function() {
+    if ($('#log').prop('checked')) {
+        chartPop.options.scales.yAxes[0].type = 'logarithmic';
+        chartDist.options.scales.yAxes[0].type = 'logarithmic';
+        // chartStat.options.scales.yAxes[0].type = 'logarithmic';
+    } else {
+        chartPop.options.scales.yAxes[0].type = 'linear';
+        chartDist.options.scales.yAxes[0].type = 'linear';
+        // chartStat.options.scales.yAxes[0].type = 'linear';
+    }
+
+    chartPop.update({duration: 0});
+    chartDist.update({duration: 0});
+    // chartStat.update({duration: 0});
+})
 
 regenPopulation();
 resetCharts();

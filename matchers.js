@@ -61,3 +61,7 @@ function grid3DMatcher(population) {
         }
     }
 }
+
+function smallWorldMatcher(population) {
+    
+}
