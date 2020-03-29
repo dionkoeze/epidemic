@@ -1,5 +1,6 @@
 class Individual {
-    constructor() {
+    constructor(id) {
+        this.id = id;
         this.infectedEpoch = undefined;
         this.infectCount = 0;
         this.friends = [];
@@ -38,7 +39,7 @@ class Individual {
 class Population {
     constructor(count, matcher) {
         this.epoch = 0;
-        this.individuals = [...Array(count).keys()].map(() => new Individual());
+        this.individuals = [...Array(count).keys()].map((id) => new Individual(id));
         matcher(this.individuals);
     }
 
@@ -89,8 +90,10 @@ class Population {
         this.individuals.forEach(individual => {
             if (individual.infectious(this.epoch)) {
                 infected += 1;
+                cy.$(`[id="${individual.id}"]`).classes('infected');
             } else if (individual.infected()) {
                 removed += 1;
+                cy.$(`[id="${individual.id}"]`).classes('removed');
             } else {
                 susceptible += 1;
             }

@@ -111,6 +111,16 @@ function regenPopulation() {
 
     population = new Population(populationSize, matcherFunc);
     resetPopulation();
+
+    // cy.json(constructCyElems(population.individuals));
+    cy.elements().remove();
+    cy.add(constructCyElems(population.individuals));
+    cy.nodes().classes('susceptible');
+    let layout = cy.layout({
+        name: 'concentric',
+    });
+    layout.run();
+    cy.fit();
 }
 
 function resetPopulation() {
@@ -123,6 +133,8 @@ function resetPopulation() {
         population.individuals[i].infectedEpoch = 0;
     }
     stats = population.computeStats();
+
+    cy.nodes().classes('susceptible');
 }
 
 function resetCharts() {
