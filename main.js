@@ -107,6 +107,8 @@ function regenPopulation() {
         matcherFunc = wattsStrogatzMatcher;
     } else if (matcher === 'ring') {
         matcherFunc = ringMatcher;
+    } else if (matcher === 'community') {
+        matcherFunc = communityRandomMatcher;
     }
 
     population = new Population(populationSize, matcherFunc);
@@ -117,7 +119,7 @@ function regenPopulation() {
     cy.add(constructCyElems(population.individuals));
     cy.nodes().classes('susceptible');
     let layout = cy.layout({
-        name: 'concentric',
+        name: 'circle',
     });
     layout.run();
     cy.fit();

@@ -103,3 +103,24 @@ function wattsStrogatzMatcher(population) {
         friends -= Math.floor(friends);
     }
 }
+
+function communityRandomMatcher(population) {
+    let cur = 0;
+    let size = 50;
+    
+    // hack
+    let original = connectivity;
+    
+    connectivity = original - .5;
+
+    while (cur < population.length) {
+        randomMatcher(population.slice(cur, Math.min(cur + size, population.length)));
+        cur += size;
+    }
+
+    connectivity = .5;
+
+    randomMatcher(population);
+
+    connectivity = original;
+}
