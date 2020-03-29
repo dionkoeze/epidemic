@@ -103,6 +103,10 @@ function regenPopulation() {
         matcherFunc = grid2DMatcher;
     } else if (matcher === 'grid3d') {
         matcherFunc = grid3DMatcher;
+    } else if (matcher === 'watts') {
+        matcherFunc = wattsStrogatzMatcher;
+    } else if (matcher === 'ring') {
+        matcherFunc = ringMatcher;
     }
 
     population = new Population(populationSize, matcherFunc);
@@ -239,7 +243,7 @@ function readParams() {
     populationSize = parseInt($('#size').val());
     infectionRate = parseFloat($('#rate').val());
     duration = parseInt($('#duration').val());
-    connectivity = parseInt($('#connectivity').val());
+    connectivity = parseFloat($('#connectivity').val());
     initial = parseInt($('#initial').val());
     delay = parseInt($('#delay').val());
     matcher = $('#network').val();
@@ -263,16 +267,13 @@ $('#log').click(function() {
     if ($('#log').prop('checked')) {
         chartPop.options.scales.yAxes[0].type = 'logarithmic';
         chartDist.options.scales.yAxes[0].type = 'logarithmic';
-        // chartStat.options.scales.yAxes[0].type = 'logarithmic';
     } else {
         chartPop.options.scales.yAxes[0].type = 'linear';
         chartDist.options.scales.yAxes[0].type = 'linear';
-        // chartStat.options.scales.yAxes[0].type = 'linear';
     }
 
     chartPop.update({duration: 0});
     chartDist.update({duration: 0});
-    // chartStat.update({duration: 0});
 })
 
 regenPopulation();

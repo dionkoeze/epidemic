@@ -4,6 +4,16 @@ function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
+function randomPower(max) {
+    let rand = 1/Math.pow(1/Math.random()-1, 5);
+
+    if (rand > max) {
+        return max;
+    } else {
+        return rand;
+    }
+}
+
 function areFriends(a, b) {
     return a.friends.indexOf(b) !== -1 || b.friends.indexOf(a) !== -1;
 }
@@ -62,6 +72,34 @@ function grid3DMatcher(population) {
     }
 }
 
-function smallWorldMatcher(population) {
-    
+function ringMatcher(population) {
+    let friends = 0;
+
+    for (let i = 0; i < population.length; i++) {
+        friends += connectivity / 2;
+        for (let f = 1; f <= friends; f++) {
+            makeFriends(population[i], population[(i + f) % population.length]);
+        }
+        friends -= Math.floor(friends);
+    }
+}
+
+function wattsStrogatzMatcher(population) {
+    let friends = 0;
+
+    for (let i = 0; i < population.length; i++) {
+        friends += connectivity / 2;
+        for (let f = 1; f <= friends; f++) {
+            if (.15 > Math.random()) {
+                let rand;
+                do {
+                    rand = randomInt(0, population.length);
+                } while(i === rand || areFriends(population[i], population[rand]));
+                makeFriends(population[i], population[rand]);
+            } else {
+                makeFriends(population[i], population[(i + f) % population.length]);
+            }
+        }
+        friends -= Math.floor(friends);
+    }
 }
