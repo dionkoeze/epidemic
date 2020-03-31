@@ -5,8 +5,8 @@ let cy = cytoscape({
         style: {
             // 'background-color': 'rgb(0,200,0)',
             'label': 'data(id)',
-            'width': 100,
-            'height': 100,
+            'width': 70,
+            'height': 70,
         },
     }, {
         selector: 'edge',

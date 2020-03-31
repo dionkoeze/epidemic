@@ -1,4 +1,4 @@
-let populationSize = 10000;
+let populationSize = 100000;
 let shownNodes = 100;
 let infectionRate = .08;
 let duration = 7;

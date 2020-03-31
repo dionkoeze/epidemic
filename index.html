@@ -16,112 +16,151 @@
         }
 
         #graph {
-            width: 80em;
-            height:50em;
+            width: 30em;
+            height:30em;
+            border: .1em solid;
         }
+
+        .gridcontainer {
+            display: grid;
+            grid-template-columns: 40% 60%;
+            grid-template-rows: auto;
+            grid-template-areas: 
+                "header header"
+                "params graph"
+                "params degrees"
+                "stats stats";
+        }
+
+        .header {
+            grid-area: header;
+        }
+
+        .datacontainer {
+            grid-area: params;
+        }
+
+        .gridcontainer {
+            grid-area: graph;
+        }
+
+        .degreecontainer {
+            grid-area: degrees;
+        }
+
+        .chartcontainer {
+            grid-area: stats;
+        }        
     </style>
 </head>
 <body>
-    <h1>Epidemic on a Graph</h1>
-    <h3>Epoch count: <span id="epoch"></span></h3>
-    <hr/>
-    <div class="datacontainer">
-        <div class="input">
-            <label for="size">Population size</label>
-            <input type="number" id="size" min="0" max="1000000000"><br/>
-            <label for="drawsize">Number of drawn nodes</label>
-            <input type="number" id="drawsize" min="0" max="1000"><br/>
-            <label for="connectivity">Connectivity</label>
-            <input type="number" id="connectivity" min="0" max="10000"><br/>
-    
-            <label for="network">Network topology</label>
-            <select id="network">
-                <option value="random">Random (unique fill)</option>
-                <!-- <option value="erdos">Random (Erdős-Renyi)</option> -->
-                <option value="watts">Small world (Watts-Strogatz)</option>
-                <option value="community">Random (unique fill) communities</option>
-                <option value="ring">Ring</option>
-                <option value="grid1d">1D grid (line)</option>
-                <option value="grid2d">2D grid (square)</option>
-                <option value="grid3d">3D grid (cube)</option>
-            </select><br/>
-    
-            <button id="regen">Regenerate network</button><br/>
-            <hr/>
-    
-            <label for="rate">Infection rate</label>
-            <input type="number" id="rate" min="0" max="1" step="0.01"><br/>
-            <label for="duration">Infection duration</label>
-            <input type="number" id="duration" min="0" max="10000"><br/>
-            <label for="initial">Initalliy infected</label>
-            <input type="number" id="initial" min="0" max="100000"><br/>
-            <label for="delay">Simulation delay (ms)</label>
-            <input type="number" id="delay" min="0" max="10000"><br/>
-    
-            <button id="start">Start</button><br/>
-            <input type="checkbox" id="log">
-            <label for="log">Logarithmic scale</label><br/>
+    <div class="gridcontainer">
+        <div class="header">
+            <h1>Epidemic on a Graph</h1>
+            <h3>Epoch count: <span id="epoch"></span></h3>
             <hr/>
         </div>
-        <div class="output">
-            <p>Infected peak: <span id="infectedPeak"></span></p>
-            <p>Removed total: <span id="removedTotal"></span></p>
-            <p>Uninfected total: <span id="uninfectedTotal"></span></p>
-            <table>
-                <tr>
-                    <th></th>
-                    <th>average</th>
-                    <th>median</th>
-                    <th>mode</th>
-                </tr>
-                <tr>
-                    <td>all</td>
-                    <td id="all-avg"></td>
-                    <td id="all-med"></td>
-                    <td id="all-mod"></td>
-                </tr>
-                <tr>
-                    <td>susceptible</td>
-                    <td id="sus-avg"></td>
-                    <td id="sus-med"></td>
-                    <td id="sus-mod"></td>
-                </tr>
-                <tr>
-                    <td>infected</td>
-                    <td id="inf-avg"></td>
-                    <td id="inf-med"></td>
-                    <td id="inf-mod"></td>
-                </tr>
-                <tr>
-                    <td>removed</td>
-                    <td id="rem-avg"></td>
-                    <td id="rem-med"></td>
-                    <td id="rem-mod"></td>
-                </tr>
-            </table>
+        <div class="datacontainer">
+            <div class="input">
+                <label for="size">Population size</label>
+                <input type="number" id="size" min="0" max="1000000000"><br/>
+                <label for="drawsize">Number of drawn nodes</label>
+                <input type="number" id="drawsize" min="0" max="1000"><br/>
+                <label for="connectivity">Connectivity</label>
+                <input type="number" id="connectivity" min="0" max="10000"><br/>
+        
+                <label for="network">Network topology</label>
+                <select id="network">
+                    <option value="random">Random (unique fill)</option>
+                    <!-- <option value="erdos">Random (Erdős-Renyi)</option> -->
+                    <option value="watts">Small world (Watts-Strogatz)</option>
+                    <option value="community">Random (unique fill) communities</option>
+                    <option value="ring">Ring</option>
+                    <option value="grid1d">1D grid (line)</option>
+                    <option value="grid2d">2D grid (square)</option>
+                    <option value="grid3d">3D grid (cube)</option>
+                </select><br/>
+        
+                <button id="regen">Regenerate network</button><br/>
+
+                <hr/>
+        
+                <label for="rate">Infection rate</label>
+                <input type="number" id="rate" min="0" max="1" step="0.01"><br/>
+                <label for="duration">Infection duration</label>
+                <input type="number" id="duration" min="0" max="10000"><br/>
+                <label for="initial">Initalliy infected</label>
+                <input type="number" id="initial" min="0" max="100000"><br/>
+                <label for="delay">Simulation delay (ms)</label>
+                <input type="number" id="delay" min="0" max="10000"><br/>
+        
+                <button id="start">Start</button><br/>
+                <input type="checkbox" id="log">
+                <label for="log">Logarithmic scale</label><br/>
+            </div>
+            <hr/>
+            <div class="output">
+                <p>Infected peak: <span id="infectedPeak"></span></p>
+                <p>Removed total: <span id="removedTotal"></span></p>
+                <p>Uninfected total: <span id="uninfectedTotal"></span></p>
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>average</th>
+                        <th>median</th>
+                        <th>mode</th>
+                    </tr>
+                    <tr>
+                        <td>all</td>
+                        <td id="all-avg"></td>
+                        <td id="all-med"></td>
+                        <td id="all-mod"></td>
+                    </tr>
+                    <tr>
+                        <td>susceptible</td>
+                        <td id="sus-avg"></td>
+                        <td id="sus-med"></td>
+                        <td id="sus-mod"></td>
+                    </tr>
+                    <tr>
+                        <td>infected</td>
+                        <td id="inf-avg"></td>
+                        <td id="inf-med"></td>
+                        <td id="inf-mod"></td>
+                    </tr>
+                    <tr>
+                        <td>removed</td>
+                        <td id="rem-avg"></td>
+                        <td id="rem-med"></td>
+                        <td id="rem-mod"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-    <hr/>
-    <div id="graph"></div>
-    <hr/>
-    <div class=container>
-        <canvas id="degreedist" width="400" height="200"></canvas>
-    </div>
-    <hr/>
-    <div>
-        <div class="container">
-            <canvas id="population" width="400" height="200"></canvas>
+        <div class="graphcontainer">
+            <div id="graph"></div>
         </div>
-        <hr/>
-        <div class="container">
-            <canvas id="stats" width="400" height="200"></canvas>
+        <div class="degreecontainer">
+            <div class=container>
+                <canvas id="degreedist" width="200" height="200"></canvas>
+            </div>
         </div>
+        <div class="chartcontainer">
+            <hr/>
+            <div class="container">
+                <canvas id="population" width="400" height="200"></canvas>
+            </div>
+            <hr/>
+            <div class="container">
+                <canvas id="stats" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <script src="graph.js"></script>
+        <script src="parameters.js"></script>
+        <script src="population.js"></script>
+        <script src="matchers.js"></script>
+        <script src="statistics.js"></script>
+        <script src="main.js"></script>
     </div>
-    <script src="graph.js"></script>
-    <script src="parameters.js"></script>
-    <script src="population.js"></script>
-    <script src="matchers.js"></script>
-    <script src="statistics.js"></script>
-    <script src="main.js"></script>
 </body>
 </html>
