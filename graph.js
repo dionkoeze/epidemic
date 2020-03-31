@@ -45,16 +45,16 @@ let cy = cytoscape({
 function constructCyElems(population) {
     let elems = [];
 
-    for (let individual of population) {
+    for (let individual of population.slice(0, shownNodes)) {
         elems.push({
             data: {id: `${individual.id}`},
         });
         
     }
 
-    for (let individual of population) {
+    for (let individual of population.slice(0, shownNodes)) {
         for(let friend of individual.friends) {
-            if (individual.id < friend.id) {
+            if (individual.id < friend.id && friend.id < shownNodes) {
                 elems.push({
                     data: {
                         id: `${individual.id}-${friend.id}`,

@@ -90,10 +90,16 @@ class Population {
         this.individuals.forEach(individual => {
             if (individual.infectious(this.epoch)) {
                 infected += 1;
-                cy.$(`[id="${individual.id}"]`).classes('infected');
+
+                if (individual.id < shownNodes) {
+                    cy.$(`[id="${individual.id}"]`).classes('infected');
+                }
             } else if (individual.infected()) {
                 removed += 1;
-                cy.$(`[id="${individual.id}"]`).classes('removed');
+
+                if (individual.id < shownNodes) {
+                    cy.$(`[id="${individual.id}"]`).classes('removed');
+                }
             } else {
                 susceptible += 1;
             }

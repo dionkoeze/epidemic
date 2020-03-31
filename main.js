@@ -246,6 +246,7 @@ function iteration() {
 }
 
 $('#size').val(populationSize);
+$('#drawsize').val(shownNodes);
 $('#connectivity').val(connectivity);
 $('#network').val(matcher);
 $('#rate').val(infectionRate);
@@ -255,6 +256,7 @@ $('#delay').val(delay)
 
 function readParams() {
     populationSize = parseInt($('#size').val());
+    shownNodes = parseInt($('#drawsize').val());
     infectionRate = parseFloat($('#rate').val());
     duration = parseInt($('#duration').val());
     connectivity = parseFloat($('#connectivity').val());
